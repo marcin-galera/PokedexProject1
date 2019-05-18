@@ -6,12 +6,17 @@ const createImg = document.createElement('img');
 const previousElement = document.querySelector('.previous');
 const nextElement = document.querySelector('.next');
 
+let nextUrl;
+let previousUrl;
+
 
 fetch("https://pokeapi.co/api/v2/pokemon")
   .then(response => {
     return response.json();
   })
   .then(data => {
+    nextUrl = data.next;
+    previousUrl = data.previous;
     data.results.map(pokemon => {
       const liItems = document.createElement("li")
       liItems.innerText = pokemon.name
@@ -23,11 +28,13 @@ fetch("https://pokeapi.co/api/v2/pokemon")
 
     function getNextPokemons() {
       console.log(data.next)
-      fetch(data.next)
+      fetch(nextUrl)
       .then(response => {
         return response.json()
       })
       .then(data => {
+        nextUrl = data.next;
+        previousUrl = data.previous;
         data.results.map(pokemon => {
           const liItems = document.createElement("li")
           liItems.innerText = pokemon.name
